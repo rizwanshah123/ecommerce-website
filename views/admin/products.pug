@@ -1,0 +1,28 @@
+extends ../layouts/main-layout.pug
+
+block style
+    link(rel="stylesheet", href="/css/product.css")
+
+block content
+    if products.length >0
+        .grid
+            each product in products
+                article.card.product-item
+                    header.card__header
+                        h1.product__title=product.title
+                    div.card__image
+                        img(src=product.imageUrl, alt="A Book", height="250")
+                    div.card__content
+                        h2.product__price=product.price
+                        p.product__description=product.description
+                    .card__actions(style="text-align: center;")
+                        div(style="display: flex; justify-content: space-around;")
+                            form(action=`/admin/edit-product/${product.id}?` method="GET")
+                                input(type="hidden", name="edit" value="true")
+                                button(type="submit").btn Edit
+                            form(action="/admin/delete-product", method="GET")
+                                input(type="hidden", name="productId" value=product.id)
+                                input(type="hidden",name="productPrice" value=product.price)
+                                button(type="submit").btn.card__actions--add-to-cart Delete 
+    else 
+        h1 No Books Added

@@ -1,0 +1,44 @@
+extends ../layouts/main-layout.pug
+
+block style
+    link(rel="stylesheet", href="/css/product.css")
+
+block content
+    script.
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('.minus-button').forEach(button => {
+                button.addEventListener('click', event => {
+                    const prodId = event.target.dataset.prodId;
+                    fetch('/shop/cart/decrement/' + prodId, { method: 'POST' })
+                        .then(() => location.reload());
+                });
+            });
+
+            document.querySelectorAll('.plus-button').forEach(button => {
+                button.addEventListener('click', event => {
+                    const prodId = event.target.dataset.prodId;
+                    fetch('/shop/cart/increment/' + prodId, { method: 'POST' })
+                        .then(() => location.reload());
+                });
+            });
+        });
+
+    
+    if products.length > 0
+        .grid
+            each product in products
+                article.card.product-item
+                    .product-info
+                        .product-img
+                            img(src=product.imageUrl, alt="Product Image" width='100%' height=200)
+                        .details
+                            h2.product__title= product.title
+                            p.product__price Total Price: #{product.totalPrice}
+                            p.product__description= product.description
+                            .quantity-controls.flex-center
+                                button.btn.minus-button(type="button", data-prod-id=product.id) -
+                                span.quantity= product.quantity
+                                button.btn.plus-button(type="button", data-prod-id=product.id) +
+    else
+        h1 No Products in Cart
+

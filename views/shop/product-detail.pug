@@ -1,0 +1,13 @@
+extends ../layouts/main-layout.pug
+
+block content
+    article.card.product-item(style="width: 250px; margin: 0 auto;")
+        header.card__header
+            h1.product__title=product.name
+        div.card__image(style="width: 250px; text-align: center;")
+            img(src=product.imageUrl, alt="A Book", height="250", style="width: 100%;")
+        div.card__content(style="text-align: center;")
+            h2.card__content--price=product.price
+            p.card__content--description=product.description
+        .card__actions(style="text-align: center;")
+            button.btn.card__actions--add-to-cart Add to Cart
